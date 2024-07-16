@@ -4,10 +4,14 @@ import java.time.LocalDateTime;
 
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,10 +23,10 @@ import jakarta.validation.constraints.Size;
 public class Produto {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY) 
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotBlank(message = "O atributo nome é obrigatório!") 
+	@NotBlank(message = "O atributo nome é obrigatório!")
 	@Size(min = 4, max = 100, message = "O atributo nome deve conter no mínimo 05 e no máximo 100 caracteres")
 	private String nome;
 
@@ -36,6 +40,10 @@ public class Produto {
 
 	@UpdateTimestamp
 	private LocalDateTime data;
+
+    @ManyToOne
+    @JsonIgnoreProperties("produtos")
+    private Categoria categoria;
 
 	public Long getId() {
 		return id;
